@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="chessboardjs-0.3.0/css/chessboard-0.3.0.css">
+</head>
+<body>
+
+<div id="board" style="width: 600px"></div>
+<p>Status: <span id="status"></span></p>
+<p>FEN: <span id="fen"></span></p>
+<p>PGN: <span id="pgn"></span></p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="chessboardjs-0.3.0/js/chessboard-0.3.0.js"></script>
+<script src="chess.js-master/chess.js"></script>
+<script>
+    $(document).ready(function () {
+        var board;
+        var game = new Chess();
+
+        var makeRandomMove = function() {
+            var possibleMoves = game.moves();
+
+            // exit if the game is over
+            if (game.game_over() === true || game.in_draw() === true || possibleMoves.length === 0) {
+                return;
+            }
+
+            var randomIndex = Math.floor(Math.random() * possibleMoves.length);
+            game.move(possibleMoves[randomIndex]);
+            board.position(game.fen());
+
+            window.setTimeout(makeRandomMove, 500);
+        };
+
+        board = new ChessBoard('board', 'start');
+
+        window.setTimeout(makeRandomMove, 500);
+    });
+</script>
+</body>
+</html>
